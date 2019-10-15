@@ -59,7 +59,10 @@ class ar_avl():
 		self.nombre = nombre
 
 class m_arbol():
-	def insertar(self,nombre, carnet)
+	def insertar(self,nombre, carnet):
+		
+
+
 #inicializacion
 tmp_a = cab_avl()
 tmp_l = tmp_lst()
