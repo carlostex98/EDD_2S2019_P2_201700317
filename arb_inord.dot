@@ -1,0 +1,15 @@
+digraph { 
+ node[shape=box]; 
+ rankdir=LR; 
+cc30[label=" 30 \n  michael 3 " ]; 
+cc30 -> cc20 ;
+cc20[label=" 20 \n  michael 2 " ]; 
+cc20 -> cc10 ;
+cc10[label=" 10 \n  michael 1 " ]; 
+cc10 -> cc25 ;
+cc25[label=" 25 \n  michael 25 " ]; 
+cc25 -> cc40 ;
+cc40[label=" 40 \n  michael 4 " ]; 
+cc40 -> cc50 ;
+cc50[label=" 50 \n  michael 5 " ]; 
+} 

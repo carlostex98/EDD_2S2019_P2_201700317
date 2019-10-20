@@ -1,0 +1,13 @@
+digraph { 
+cc30[shape=record, label="<C0>|Carnet :30\n Nombre: michael 3 \n Altura:3 \n FE:0 |<C1>  "]; 
+cc20[shape=record, label="<C0>|Carnet :20\n Nombre: michael 2 \n Altura:2 \n FE:0 |<C1>  "]; 
+cc10[shape=record, label="<C0>|Carnet :10\n Nombre: michael 1 \n Altura:1 \n FE:0 |<C1>  "]; 
+cc25[shape=record, label="<C0>|Carnet :25\n Nombre: michael 25 \n Altura:1 \n FE:0 |<C1>  "]; 
+cc40[shape=record, label="<C0>|Carnet :40\n Nombre: michael 4 \n Altura:2 \n FE:-1 |<C1>  "]; 
+cc50[shape=record, label="<C0>|Carnet :50\n Nombre: michael 5 \n Altura:1 \n FE:0 |<C1>  "]; 
+cc30:C1  -> cc20; 
+cc30:C0  -> cc40; 
+cc20:C1  -> cc10; 
+cc20:C0  -> cc25; 
+cc40:C0  -> cc50; 
+} 
