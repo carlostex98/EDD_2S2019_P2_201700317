@@ -1,8 +1,10 @@
 from hashlib import sha256
 import tkinter as tk
+from datetime import datetime
 import os
 import time
 import csv
+import json
 #temporal de clase
 sel_root = None
 class tmp_lst():
@@ -42,6 +44,13 @@ class m_lst():
 		self.primero = None
 		self.ultimo = None
 		self.tamanio = 0
+	def pri(self):
+		s=self.primero
+		return s
+	
+	def ult(self):
+		s = self.ultimo
+		return s
 
 	def agregar(self, tm_stamp, c_class, p_hash, a_hash, arbol_i):
 		nuevo_b = lst(self.tamanio, tm_stamp, c_class, p_hash, a_hash, arbol_i)
@@ -299,8 +308,37 @@ class carga():
 		self.blk_build()
 
 	def blk_build(self):
-		print(self.clase)
-		print(self.data_js)
+		#print(self.clase)
+		#print(self.data_js)
+		now = datetime.now()
+		dt_s = now.strftime("%d-%m-%Y::%H:%M:%S")
+		idx=0
+		p_ha=""
+		hh=lista.pri()
+		nn=lista.ult()
+		if hh is None:
+			idx=0
+			p_ha="0000"
+		else:
+			idx=nn.index+1
+			p_ha=nn.a_hash
+		suma=str(idx)+str(dt_s)+str(self.clase)+str(self.data_js)+str(p_ha)
+		super_hash = sha256(suma.encode('utf-8')).hexdigest()
+		##ahora el bloque
+
+		x={
+			"INDEX":str(idx),
+			"TIMESTAMP":dt_s,
+			"CLASS":str(self.clase),
+			"DATA":self.data_js,
+			"PREVIOUSHASH":p_ha,
+			"HASH":super_hash
+		}
+		y=json.dumps(x)
+		print(y)
+		
+		
+
 
 
 
@@ -376,7 +414,6 @@ def menu_reporte():
 	window.mainloop()
 
 def main():
-	print("hello \n")
 
 	rr = None
 	rr = arbolito.insertar(10, "michael 1", rr)
@@ -393,8 +430,7 @@ def main():
 	#arbolito.pre_ord(rr)
 	#arbolito.prt_avl_rep_nor(rr)
 	#l_tmp.genera_reporte_gnd(rr,0)
-	sf=sha256("hola".encode('utf-8')).hexdigest()
-	print(str(sf))
+	#sf=sha256("hola".encode('utf-8')).hexdigest()
 	window = tk.Tk()
 	window.geometry("250x200")
 	l1 = tk.Label(window, text="Menu")
