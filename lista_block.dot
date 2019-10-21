@@ -1,0 +1,11 @@
+digraph { 
+ node[shape=component]; 
+ rankdir=TB; 
+cxc0[label = " Class: arbolitos \n TimeStamp: tmps \n P_hash: sdfu3495-035n\n A_hash= vsdvrdf  " ]; 
+cxc0 -> cxc1; 
+cxc1 -> cxc0; 
+cxc1[label = " Class: arbolitos1 \n TimeStamp: tmps1 \n P_hash: 11sdfu3495-035n\n A_hash= 11vsdvrdf  " ]; 
+cxc1 -> cxc2; 
+cxc2 -> cxc1; 
+cxc2[label = " Class: arbolitos2 \n TimeStamp: tmps2 \n P_hash: 22sdfu3495-035n\n A_hash= 22vsdvrdf  " ]; 
+} 

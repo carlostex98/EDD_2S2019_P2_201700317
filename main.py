@@ -1,6 +1,10 @@
-import hashlib
+from hashlib import sha256
+import tkinter as tk
 import os
+import time
+import csv
 #temporal de clase
+sel_root = None
 class tmp_lst():
 	def __init__(self):
 		self.datos=[0,"", "", "", ""]
@@ -50,6 +54,28 @@ class m_lst():
 			self.ultimo.siguiente=nuevo_b
 			self.ultimo=nuevo_b
 			self.tamanio=self.tamanio+1
+	
+	def reporte(self):
+		actual=self.primero
+		f = open("lista_block.dot", "w")
+		f.write("digraph { \n node[shape=component]; \n rankdir=TB; \n")
+		while True:
+			#muestra
+			s="cxc"+str(actual.index)+"[label = \" Class: "+str(actual.c_class)+" \\n TimeStamp: "+str(actual.tm_stamp)+" \\n P_hash: "+str(actual.p_hash)+"\\n A_hash= "+str(actual.a_hash)+"  \" ]; \n"
+			f.write(s)
+			if(actual.siguiente != None):
+				s = "cxc"+str(actual.index)+" -> cxc"+str(actual.siguiente.index)+"; \n"
+				s += "cxc"+str(actual.siguiente.index)+" -> cxc"+str(actual.index)+"; \n"
+				f.write(s)
+			actual=actual.siguiente
+			if(actual is None):
+				break
+		f.write("} ")
+		f.close()
+		os.system("dot -Tjpg lista_block.dot -o lst_blk.jpg")
+		#time.sleep(1)
+		os.system("xdg-open lst_blk.jpg")
+		
 
 
 class ar_avl(object):
@@ -207,6 +233,7 @@ class l_temporal():
 		self.nombre = nombre
 		self.siguiente = None
 
+
 class m_temporal():
 	def __init__(self):
 		self.primero = None
@@ -253,8 +280,30 @@ class m_temporal():
 
 		os.system("xdg-open imagen_avl1.jpg")
 
+class carga():
+	def __init__(self):
+		self.sxa=""
+		self.clase=""
+		self.data_js=""
 
-			
+	def carga_csv(self,ruta):
+		self.sxa=""
+		self.sxa += "bloques/"+str(ruta)
+		with open(str(self.sxa),'r') as csvfile:
+			readCSV = csv.reader(csvfile, delimiter=',')
+			for row in readCSV:
+				if(row[0]=="class"):
+					self.clase=str(row[1])
+				if row[0]=="data":
+					self.data_js=str(row[1])
+		self.blk_build()
+
+	def blk_build(self):
+		print(self.clase)
+		print(self.data_js)
+
+
+
 
 		
 
@@ -264,11 +313,67 @@ tmp_a = cab_avl()
 tmp_l = tmp_lst()
 l_tmp = m_temporal()
 arbolito = m_arbol()
+lista = m_lst()
+s_carga = carga()
 #0 preord
 #1 postord
 #2 inord
 
+def lim(texto):
+	s=texto[:50]
+	return s
 
+
+def gtx(a):
+	sm=a.get()
+	s_carga.carga_csv(sm)
+
+def lee_ruta():
+	window = tk.Tk()
+	window.geometry("650x150")
+	e1 = tk.Label(window, text="Ingrese la ruta del archivo:")
+	e1.grid(row=0, column=0)
+
+	
+	eln=tk.Entry(window)
+	eln.grid(row=0, column=1)
+	
+	#print(sn)
+	#sn = eln.get()
+	r1 = tk.Button(window, text="Analizar", width=15, command=lambda:gtx(eln))
+	
+	r1.grid(row=2, column=1)
+
+	window.mainloop()
+
+def carrou():
+	window = tk.Tk()
+	window.geometry("600x100")
+	l1 = tk.Label(window, text="Carrousell")
+	l1.grid(row=0, column=0)
+	window.mainloop()
+
+def menu_reporte():
+	window = tk.Tk()
+	window.geometry("400x400")
+	l1 = tk.Label(window, text="Reportes")
+	l1.grid(row=0, column=0)
+
+	r1 = tk.Button(window, text="R. bloque", width=15, command=lista.reporte)
+	r1.grid(row=1, column=1)
+
+	r2 = tk.Button(window, text="R. avl", width=15 )
+	r2.grid(row=2, column=1)
+
+	r3 = tk.Button(window, text="R. inorden", width=15)
+	r3.grid(row=3, column=1)
+
+	r4 = tk.Button(window, text="R. postorden", width=15 )
+	r4.grid(row=4, column=1)
+
+	r5 = tk.Button(window, text="R. preorden", width=15)
+	r5.grid(row=5, column=1)
+	window.mainloop()
 
 def main():
 	print("hello \n")
@@ -280,12 +385,32 @@ def main():
 	rr = arbolito.insertar(40, "michael 4", rr)
 	rr = arbolito.insertar(50, "michael 5", rr)
 	rr = arbolito.insertar(25, "michael 25", rr)
+	lista.agregar("tmps","arbolitos","sdfu3495-035n","vsdvrdf",None)
+	lista.agregar("tmps1", "arbolitos1", "11sdfu3495-035n", "11vsdvrdf", None)
+	lista.agregar("tmps2", "arbolitos2", "22sdfu3495-035n", "22vsdvrdf", None)
+	#lista.reporte()
 	#print(rr.carnet)
 	#arbolito.pre_ord(rr)
-	arbolito.prt_avl_rep_nor(rr)
+	#arbolito.prt_avl_rep_nor(rr)
 	#l_tmp.genera_reporte_gnd(rr,0)
+	sf=sha256("hola".encode('utf-8')).hexdigest()
+	print(str(sf))
+	window = tk.Tk()
+	window.geometry("250x200")
+	l1 = tk.Label(window, text="Menu")
+	l1.grid(row=0, column=0)
+	b1 = tk.Button(window, text="Insertar Bloque", width=15, command=lee_ruta)
+	b1.grid(row=1, column=1)
+
+	b2 = tk.Button(window, text="Seleccionar bloque", width=15, command=carrou)
+	b2.grid(row=2, column=1)
+
+	b3 = tk.Button(window, text="Reportes", width=15, command=menu_reporte)
+	b3.grid(row=3, column=1)
+
+	window.mainloop()
 	
 
-
-
 main()
+
+
