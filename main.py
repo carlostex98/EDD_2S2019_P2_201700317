@@ -335,7 +335,7 @@ class carga():
 			"HASH":super_hash
 		}
 		y=json.dumps(x)
-		print(y)
+		
 		
 		
 
